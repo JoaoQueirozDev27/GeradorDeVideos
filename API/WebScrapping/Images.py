@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup as bs
-from PIL import  Image
 import  requests
 import os
 

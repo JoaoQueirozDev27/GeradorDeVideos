@@ -1,14 +1,12 @@
 from Models.Noticia import Noticia
-from WebScrapping.Globo import *
 from WebScrapping.Images import *
-from ResumirAI import *
 
-from bs4 import BeautifulSoup as bs
+from bs4 import BeautifulSoup as Bs
 import  requests
 
 def GetPage(link) :
     requisicao = requests.get(link)
-    site = bs(requisicao.text,"html.parser")
+    site = Bs(requisicao.text,"html.parser")
     requisicao.close()
     return site
 
@@ -20,14 +18,11 @@ def GetLinksOnPage():
 
 def Scrapping(link):
     site = GetPage(link)
-    Titulo = site.find("h1",class_="content-head__title")
+    titulo = site.find("h1",class_="content-head__title")
     paragrafos = site.find_all("p",class_="content-text__container")
-    Texto = '\n'.join([paragrafo.text for paragrafo in paragrafos if paragrafo.text])
-    RoadMap = CreateRoadMap(Texto)
-    KeyWords = GetKeyWords(RoadMap)
-    Images = [GetLinksOfImages(KeyWord) for KeyWord in KeyWords]
-    NovaNoticia = Noticia(Titulo.text,Texto,Images)
-    return NovaNoticia
+    texto = '\n'.join([paragrafo.text for paragrafo in paragrafos if paragrafo.text])
+    novaNoticia = Noticia(titulo,texto)
+    return novaNoticia
 
 def GetNews():
    Noticias = []

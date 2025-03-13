@@ -1,1 +1,1 @@
-QtRows_Images = 6
+QtRows_Images = 10

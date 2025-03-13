@@ -1,5 +1,4 @@
 class Noticia:
-    def __init__(self, Titulo,Texto,Imagens):
-        self.Titulo = Titulo
-        self.Texto = Texto
-        self.Imagens = Imagens
+    def __init__(self, titulo,texto):
+        self.titulo = titulo
+        self.texto = texto

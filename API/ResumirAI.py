@@ -1,25 +1,24 @@
 from openai import OpenAI
 from Config import *
+import requests
+from google import genai
 
-def SendPrompt(prompt,text):
-    client = OpenAI(
-        base_url="https://openrouter.ai/api/v1",
-        api_key="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",
-    )
+client = genai.Client(api_key="AIzaSyDXDLBkiYKkm2gLUEZJa7cviox3ysAN46E")
 
-    completion = client.chat.completions.create(
-        model="deepseek/deepseek-chat:free",
-        messages=[
-            {
-                "role": "user",
-                "content": f"{prompt} {text}"
-            }
-        ]
+def SendPrompt(prompt):
+    print("Entrou no 'Send prompt'")
+    print("Gerou o Cliente")
+    response = client.models.generate_content(
+        model="gemini-2.0-flash", contents=prompt
     )
-    return completion.choices[0].message.content.split("\n")
+    print("Gerou a response")
+    return response.text
+
 
 def CreateRoadMap(text):
-    return SendPrompt(f"crie o roteiro com {QtRows_Images} linhas(Apenas as frases,sem descricoes) de um vídeo curto para plataformas como tiktok e shorts,sendo a primeira frase um titulo curto e a segunda a frase impactante para comecar o video baseado no texto:",text)
+    print("entrou na funcao")
+    response = SendPrompt(f"crie o roteiro com {QtRows_Images} linhas(Sem identificacoes de linha) de um vídeo curto para plataformas como tiktok e shorts,sendo a primeira frase um titulo curto e a segunda a frase impactante para comecar o video baseado no texto:{text}")
+    return response
 
 def GetKeyWords(text):
-    return SendPrompt(f"Siga o modelo $palavraChave1,palavraChave2$ em cada sentença de forma objetiva e direta: ",text)
+    return SendPrompt(f"Siga o modelo $palavraChave1,palavraChave2$ em cada sentença de forma objetiva e direta: {text}")
